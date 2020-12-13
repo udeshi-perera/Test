@@ -1,0 +1,75 @@
+public class NIC_Details {
+    String id;
+    int month[] = {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    boolean formatofNIC = false;
+
+    public NIC_Details() {
+        Console.WriteLine("Enter Your NIC Number " +
+                "\nLike : 000000000V");
+        id = Console.ReadLine();
+        if (id.length() == 12) {
+            formatofNIC = true;
+        }
+    }
+
+    public int getYear() {
+        if (formatofNIC) {
+            return (Int32.parse(id.substring(0, 4)));
+        }
+        return (1900 + Int32.parse(id.substring(0, 2)));
+    }
+
+    public int getDays() {
+        int d;
+        if (formatofNIC) {
+            d = Int32.parse(id.substring(4, 7));
+        } else {
+            d = Int32.parse(id.substring(2, 5));
+        }
+        if (d > 500) {
+            return (d - 500);
+        } else {
+            return d;
+        }
+    }
+
+    public void setMonth() {
+        int mo = 0, da = 0;
+        int days = getDays();
+
+        for (int i = 0; i < month.length; i++) {
+            if (days < month[i]) {
+                mo = i + 1;
+                da = days;
+                break;
+            } else {
+                days = days - month[i];
+            }
+        }
+        Console.WriteLine("Month : " + mo + "\nDate : " + da);
+
+    }
+
+    public String getSex() {
+        String M = "Male", F = "Female";
+        int d;
+        if (isNewFormat) {
+            d = Int32.parse(id.substring(4, 7));
+        } else {
+            d = Int32.parse(id.substring(2, 5));
+        }
+        if (d > 500) {
+            return F;
+        } else {
+            return M;
+        }
+    }
+
+    public static void main(String[] args) {
+        NIC_Details N = new NIC_Details();
+        Console.WriteLine("Your Details of given NIC Number");
+        Console.WriteLine("Year : " + N.getYear());
+        N.setMonth();
+        Console.WriteLine("Sex : " + N.getSex());
+    }
+}
